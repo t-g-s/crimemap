@@ -2,7 +2,6 @@ from flask import Flask
 from flask import render_template
 from flask import request
 import json
-#import datetime
 from dateutil.parser import parse
 import dbconfig
 if dbconfig.test:
@@ -15,8 +14,7 @@ DB = DBHelper()
 
 @app.route("/")
 def home():
-    crimes = DB.get_all_crimes()
-    crimes = json.dumps(crimes)
+    crimes = json.dumps(DB.get_all_crimes())
     return render_template("home.html", crimes=crimes)
 
 @app.route("/add", methods=["POST"])
@@ -39,7 +37,6 @@ def clear():
 @app.route("/submitcrime", methods=['POST'])
 def submitcrime():
     category = request.form.get("category")    
-    #date = datetime.datetime.strptime(request.form.get("date"), '%m/%d/%Y').strftime('%Y-%m-%d')
     date = parse(request.form.get("date")).strftime('%Y-%m-%d')
     latitude = float(request.form.get("latitude"))
     longitude = float(request.form.get("longitude"))
