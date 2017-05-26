@@ -2,7 +2,8 @@ from flask import Flask
 from flask import render_template
 from flask import request
 import json
-import datetime
+#import datetime
+from dateutil.parser import parse
 import dbconfig
 if dbconfig.test:
     from mockdbhelper import MockDBHelper as DBHelper
@@ -38,7 +39,8 @@ def clear():
 @app.route("/submitcrime", methods=['POST'])
 def submitcrime():
     category = request.form.get("category")    
-    date = datetime.datetime.strptime(request.form.get("date"), '%m/%d/%Y').strftime('%Y-%m-%d')
+    #date = datetime.datetime.strptime(request.form.get("date"), '%m/%d/%Y').strftime('%Y-%m-%d')
+    date = parse(request.form.get("date")).strftime('%Y-%m-%d')
     latitude = float(request.form.get("latitude"))
     longitude = float(request.form.get("longitude"))
     description = request.form.get("description")
